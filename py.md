@@ -1,24 +1,30 @@
 
 
+Ответ на 1:
 
-1.
 Какое значение будет присвоено переменной c?
+```
 Ответ: никакое, так как складываем цифру и текст.
+```
 Как получить для переменной c значение 12?
+```
 a = 1
 b = '2'
 c = str(a) + b
 print (c)
+```
 Как получить для переменной c значение 3?
+```
 a = 1
 b = '2'
 c = a + int(b)
 print (c)
-
+```
 
 Ответ сразу на 2 и 3 задания:
 
 
+``` 
 import os 
 a = input("enter DIR: ")
                                                                                                       
@@ -36,10 +42,11 @@ for result in result_os.split('\n'):
     elif result.find('A') != -1: 
             prepare_result3 = result.replace('A', 'Новые не измененные:')                             
             print(prepare_result3)                                                                    
-                                                                          
+   ```                                                                       
 
-4.
+ответ на 4:
 
+``` 
 import socket
 
 lookupList = []
@@ -65,3 +72,4 @@ with open('/home/algus/py.txt', 'rt') as file:
 with open('/home/algus/py.txt', 'wt') as file:
     for line in lookupList:
         file.write(line + '\n')
+```
