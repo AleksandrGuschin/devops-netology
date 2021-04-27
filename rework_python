@@ -1,0 +1,15 @@
+
+import os
+
+a = input("enter DIR: ")
+path = os.path.abspath(os.curdir)
+bash_command = [a, "git status -s"]
+result_os = os.popen(' && '.join(bash_command)).read()
+is_change = False
+
+for result in result_os.split('\n'):
+    for result in result_os.split('\n'):
+        if result.find('M') != -1:
+            prepare_result = os.path.join(path, (result.replace('\tМ:   ', '')))
+            print(prepare_result)
+            
