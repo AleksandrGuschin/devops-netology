@@ -10,6 +10,6 @@ is_change = False
 for result in result_os.split('\n'):
     for result in result_os.split('\n'):
         if result.find('M') != -1:
-            prepare_result = os.path.join(path, (result.replace('\tМ:   ', '')))
+            prepare_result = os.path.join(path, (result.replace('\tmodified:   ', '')))
             print(prepare_result)
             
