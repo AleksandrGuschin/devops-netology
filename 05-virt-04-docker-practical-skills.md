@@ -83,4 +83,7 @@ CMD ["Hey, netology”]
 Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
 ![](https://github.com/AleksandrGuschin/devops-netology/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202021-06-03%2008-28-50.png)
 
+Ссылки на образы в вашем хранилище docker-hub
+<https://hub.docker.com/repository/docker/aleksandrguschin/amazonjen>
+<https://hub.docker.com/repository/docker/aleksandrguschin/ubuntujen>
 
