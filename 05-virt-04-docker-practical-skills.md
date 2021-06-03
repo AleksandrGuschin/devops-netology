@@ -89,3 +89,56 @@ CMD ["Hey, netology”]
 
 <https://hub.docker.com/repository/docker/aleksandrguschin/ubuntujen>
 
+## Задача 3 
+
+В данном задании вы научитесь:
+- объединять контейнеры в единую сеть
+- исполнять команды "изнутри" контейнера
+
+Для выполнения задания вам нужно:
+- Написать Dockerfile: 
+    - Использовать образ https://hub.docker.com/_/node как базовый
+    - Установить необходимые зависимые библиотеки для запуска npm приложения https://github.com/simplicitesoftware/nodejs-demo
+    - Выставить у приложения (и контейнера) порт 3000 для прослушки входящих запросов  
+    - Соберите образ и запустите контейнер в фоновом режиме с публикацией порта
+
+- Запустить второй контейнер из образа ubuntu:latest 
+- Создайть `docker network` и добавьте в нее оба запущенных контейнера
+- Используя `docker exec` запустить командную строку контейнера `ubuntu` в интерактивном режиме
+- Используя утилиту `curl` вызвать путь `/` контейнера с npm приложением  
+
+Для получения зачета, вам необходимо предоставить:
+- Наполнение Dockerfile с npm приложением
+- Скриншот вывода вызова команды списка docker сетей (docker network cli)
+- Скриншот вызова утилиты curl с успешным ответом
+
+## Ответ
+
+Наполнение Dockerfile с npm приложением
+
+```
+FROM node
+
+#Предварительно сделав pull репозитория с github
+COPY . .
+WORKDIR "/nodejs-demo-master"
+
+RUN cd /nodejs-demo-master && \
+    npm install
+EXPOSE 3000/tcp
+
+CMD  ["start", "0.0.0.0"]
+ENTRYPOINT ["npm"]
+```
+
+Скриншот вывода вызова команды списка docker сетей (docker network cli)
+
+![](https://github.com/AleksandrGuschin/devops-netology/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202021-06-03%2016-10-15.png)
+
+Скриншот вызова утилиты curl с успешным ответом
+
+![](https://github.com/AleksandrGuschin/devops-netology/blob/main/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202021-06-03%2016-12-48.png)
+
+
+
+
