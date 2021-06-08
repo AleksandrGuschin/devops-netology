@@ -16,7 +16,7 @@ services:
     image: postgres:12
     restart: always
     volumes:   
-       - ./home/algus/sqlbackup
+       - /home/algus/sqldump:/dump
     environment:
       POSTGRES_PASSWORD: example
 
@@ -111,6 +111,10 @@ test_db=# SELECT COUNT(*) from clients;
 
 test_db=# SELECT COUNT(*) from orders;
      5
+```
+#здесь я понял, что правильно будет переименовать столбец в таблице clients
+```
+ALTER TABLE clients RENAME COLUMN фамилия TO ФИО
 ```
 
 - приведите в ответе:
@@ -209,19 +213,103 @@ UPDATE clients SET "заказ" = 5 WHERE id = 3;
 ## Ответ
 
 Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. Задачу 1)
+
 ```
-root@pc:/home/algus# docker exec -t 33d73e96563b pg_dumpall -c -U postgres  > /var/lib/docker/volumes/sqlbackup/_data/dump_`date +%d-%m-%Y"_"%H_%M_%S`
+pg_dump -U postgres test_db > /dump/test_db.sql
 ```
 Остановите контейнер с PostgreSQL (но не удаляйте volumes).
 
 ```
-root@pc:/home/algus# docker stop 33d73e96563b
-33d73e96563b
+root@pc:/home/algus# docker stop 5f3bad5cf6ea
+5f3bad5cf6ea
 ```
 Поднимите новый пустой контейнер с PostgreSQL.
 ```
-root@pc:/home/algus# docker run -d --name ps_db_1.3 -e POSTGRES_PASSWORD=admin -p 5437:5432  postgres:12
+ sudo docker run -d --name ps_db_2 -e POSTGRES_PASSWORD=mysecretpassword -v /home/algus/ps/home/algus/sqldump:/dump postgres:12
+ 
 ```
+Восстановите БД test_db в новом контейнере.
+Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
+
+```
+algus@pc:~$ sudo docker exec -it ps_db_2 bash
+
+root@01d594b5b4c7:/# psql -U postgres test_db < dump/test_db.sql
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+ERROR:  relation "clients" already exists
+ALTER TABLE
+ERROR:  relation "clients_id_seq" already exists
+ALTER TABLE
+ALTER SEQUENCE
+ERROR:  relation "orders" already exists
+ALTER TABLE
+ERROR:  relation "orders_id_seq" already exists
+ALTER TABLE
+ALTER SEQUENCE
+ERROR:  relation "test" already exists
+ALTER TABLE
+ERROR:  relation "test2" already exists
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ERROR:  duplicate key value violates unique constraint "clients_pkey"
+DETAIL:  Key (id)=(4) already exists.
+CONTEXT:  COPY clients, line 1
+ERROR:  duplicate key value violates unique constraint "orders_pkey"
+DETAIL:  Key (id)=(1) already exists.
+CONTEXT:  COPY orders, line 1
+COPY 1
+COPY 1
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
 
 
+
+ERROR:  role "test-admin-user" does not exist
+ERROR:  role "test-simple-user" does not exist
+ERROR:  role "test-admin-user" does not exist
+root@01d594b5b4c7:/# su postgres
+postgres@01d594b5b4c7:/$ psql
+psql (12.7 (Debian 12.7-1.pgdg100+1))
+Type "help" for help.
+
+postgres=# \list
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =Tc/postgres         +
+           |          |          |            |            | postgres=CTc/postgres+
+           |          |          |            |            | admin=CTc/postgres
+(4 rows)
+
+postgres=# 
+
+#Как мы можем видеть БД восстановлена в новом контейнере. Необходимо также восстановить пользователей командами из Задачи 2.
 
