@@ -215,7 +215,7 @@ UPDATE clients SET "заказ" = 5 WHERE id = 3;
 Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. Задачу 1)
 
 ```
-pg_dump -U postgres test_db > /dump/test_db.sql
+pg_dumpall > bunew -U postgres
 ```
 Остановите контейнер с PostgreSQL (но не удаляйте volumes).
 
@@ -233,83 +233,8 @@ root@pc:/home/algus# docker stop 5f3bad5cf6ea
 
 ```
 algus@pc:~$ sudo docker exec -it ps_db_2 bash
+su postgres
+CREATE DATABASE users WITH ENCODING='UTF-8';
+psql -U postgres -W test_db < /dump/bunew
 
-root@01d594b5b4c7:/# psql -U postgres test_db < dump/test_db.sql
-SET
-SET
-SET
-SET
-SET
- set_config 
-------------
- 
-(1 row)
-
-SET
-SET
-SET
-SET
-SET
-SET
-ERROR:  relation "clients" already exists
-ALTER TABLE
-ERROR:  relation "clients_id_seq" already exists
-ALTER TABLE
-ALTER SEQUENCE
-ERROR:  relation "orders" already exists
-ALTER TABLE
-ERROR:  relation "orders_id_seq" already exists
-ALTER TABLE
-ALTER SEQUENCE
-ERROR:  relation "test" already exists
-ALTER TABLE
-ERROR:  relation "test2" already exists
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ERROR:  duplicate key value violates unique constraint "clients_pkey"
-DETAIL:  Key (id)=(4) already exists.
-CONTEXT:  COPY clients, line 1
-ERROR:  duplicate key value violates unique constraint "orders_pkey"
-DETAIL:  Key (id)=(1) already exists.
-CONTEXT:  COPY orders, line 1
-COPY 1
-COPY 1
- setval 
---------
-      1
-(1 row)
-
- setval 
---------
-      1
-(1 row)
-
-
-
-ERROR:  role "test-admin-user" does not exist
-ERROR:  role "test-simple-user" does not exist
-ERROR:  role "test-admin-user" does not exist
-root@01d594b5b4c7:/# su postgres
-postgres@01d594b5b4c7:/$ psql
-psql (12.7 (Debian 12.7-1.pgdg100+1))
-Type "help" for help.
-
-postgres=# \list
-                                 List of databases
-   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
------------+----------+----------+------------+------------+-----------------------
- postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
- template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
-           |          |          |            |            | postgres=CTc/postgres
- template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
-           |          |          |            |            | postgres=CTc/postgres
- test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =Tc/postgres         +
-           |          |          |            |            | postgres=CTc/postgres+
-           |          |          |            |            | admin=CTc/postgres
-(4 rows)
-
-postgres=# 
-
-#Как мы можем видеть БД восстановлена в новом контейнере. Необходимо также восстановить пользователей командами из Задачи 2.
 
