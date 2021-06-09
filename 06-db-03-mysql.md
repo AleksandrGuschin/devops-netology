@@ -63,4 +63,43 @@ mysql> SELECT COUNT(*) FROM orders WHERE price > 300;
 1 row in set (0.00 sec)
 
 ```
+## Задача 2
+
+Создайте пользователя test в БД c паролем test-pass, используя:
+- плагин авторизации mysql_native_password
+- срок истечения пароля - 180 дней 
+- количество попыток авторизации - 3 
+- максимальное количество запросов в час - 100
+- аттрибуты пользователя:
+    - Фамилия "Pretty"
+    - Имя "James"
+
+Предоставьте привелегии пользователю `test` на операции SELECT базы `test_db`.
+    
+Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получите данные по пользователю `test` и 
+**приведите в ответе к задаче**.
+
+## Ответ
+
+```
+
+GRANT SELECT ON test_db.* TO 'test';
+Query OK, 0 rows affected (0.01 sec)
+
+SHOW GRANTS FOR 'test';
++-------------------------------------------+
+| Grants for test@%                         |
++-------------------------------------------+
+| GRANT USAGE ON *.* TO `test`@`%`          |
+| GRANT SELECT ON `test_db`.* TO `test`@`%` |
++-------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE user='test';
++------+------+--------------------------------------+
+| USER | HOST | ATTRIBUTE                            |
++------+------+--------------------------------------+
+| test | %    | {"Name": "James", "lname": "Pretty"} |
++------+------+--------------------------------------+
+
 
