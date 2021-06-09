@@ -234,7 +234,7 @@ root@pc:/home/algus# docker stop 5f3bad5cf6ea
 ```
 algus@pc:~$ sudo docker exec -it ps_db_2 bash
 su postgres
-CREATE DATABASE users WITH ENCODING='UTF-8';
+CREATE DATABASE test_db WITH ENCODING='UTF-8';
 psql -U postgres -W test_db < /dump/bunew
 
 
