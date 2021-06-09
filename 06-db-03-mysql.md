@@ -175,6 +175,24 @@ Max_data_length: 0
 ```
 
 
+Измените `engine` и **приведите время выполнения и запрос на изменения из профайлера в ответе**:
+- на `MyISAM`
 
-
+```
+mysql> ALTER TABLE orders ENGINE = MyISAM;
+Query OK, 5 rows affected (0.08 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+- на `InnoDB`
+        
+```
+mysql> ALTER TABLE orders ENGINE = InnoDB;
+Query OK, 5 rows affected (0.10 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+```
+|        6 | 0.00079700 | ALTER TABLE test_db ENGINE = MyISAM          |
+|        7 | 0.07371225 | ALTER TABLE orders ENGINE = MyISAM           |
+|        8 | 0.09714225 | ALTER TABLE orders ENGINE = InnoDB           |
+```
 
