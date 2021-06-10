@@ -27,25 +27,25 @@ Type "help" for help.
 Postgres=# \?
 ```
 
-вывода списка БД
+вывод списка БД
 ```
 \l[+]   [PATTERN]      list databases
 ```
 
-подключения к БД
+подключение к БД
 ```
 \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}
                          connect to new database (currently "postgres")
 ```
-вывода списка таблиц
+вывод списка таблиц
 ```
 \dt[S+] [PATTERN]      list tables
 ```
-вывода описания содержимого таблиц
+вывод описания содержимого таблиц
 ```
 \d[S+]  NAME           describe table, view, sequence, or index
 ```
-выхода из psql
+выход из psql
 
 ```
 \q                     quit psql
