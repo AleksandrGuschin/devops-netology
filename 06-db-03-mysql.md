@@ -19,6 +19,8 @@
 
 ## Ответ
 
+Server version:		8.0.25 MySQL Community Server - GP
+
 ```
 mysql> \s
 --------------
