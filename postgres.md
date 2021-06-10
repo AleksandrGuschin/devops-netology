@@ -75,38 +75,6 @@ postgres-# ;
 CREATE DATABASE
 
 root@1e5326b6d7a1:/# psql -U postgres -W test_database < /home/algus/posgres/test_dump.sql
-Password: 
-SET
-SET
-SET
-SET
-SET
- set_config 
-------------
- 
-(1 row)
-
-SET
-SET
-SET
-SET
-SET
-SET
-CREATE TABLE
-ALTER TABLE
-CREATE SEQUENCE
-ALTER TABLE
-ALTER SEQUENCE
-ALTER TABLE
-COPY 8
- setval 
---------
-      8
-(1 row)
-
-ALTER TABLE
-
-
 
 postgres=# \c test_database
 You are now connected to database "test_database" as user "postgres".
