@@ -255,4 +255,8 @@ innodb_buffer_pool_size = 300M
 #«двойной буферизации» — и операционной системой, и системой InnoDB.
 innodb_flush_method=O_DIRECT
 ```
+Размер файла логов операций 100 Мб
 
+```
+innodb_log_file_size = 100M
+```
