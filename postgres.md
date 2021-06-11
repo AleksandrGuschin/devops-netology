@@ -108,3 +108,76 @@ test_database=# SELECT avg_width FROM pg_stats WHERE tablename = 'orders' ORDER 
 
 Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
 
+## Ответ
+
+
+## Задача 3
+
+Архитектор и администратор БД выяснили, что ваша таблица orders разрослась до невиданных размеров и
+поиск по ней занимает долгое время. Вам, как успешному выпускнику курсов DevOps в нетологии предложили
+провести разбиение таблицы на 2 (шардировать на orders_1 - price>499 и orders_2 - price<=499).
+
+Предложите SQL-транзакцию для проведения данной операции.
+
+Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
+
+## Ответ
+
+#Создаем новую таблицу с использование дополнительной синтаксической конструкции в команде CREATE ТABLE – PATITION BY.
+```
+test_database=# CREATE TABLE orders_range (
+id INT,
+title varchar (80),
+price INT ) PARTITION BY RANGE(price);
+CREATE TABLE
+```
+#шардируем получившуюся таблицу
+```
+test_database=# CREATE TABLE orders_1 PARTITION OF orders_range FOR VALUES FROM  (499) TO (999999999);
+CREATE TABLE
+test_database=# CREATE TABLE orders_2 PARTITION OF orders_range FOR VALUES FROM  (0) TO (499);
+CREATE TABLE
+```
+
+#Вставляем содержимое таблиц orders в orders_range
+```
+test_database=# INSERT INTO orders_range SELECT * FROM orders;
+INSERT 0 8
+```
+```
+test_database=# \dt
+                  List of relations
+ Schema |     Name     |       Type        |  Owner   
+--------+--------------+-------------------+----------
+ public | orders       | table             | postgres
+ public | orders_1     | table             | postgres
+ public | orders_2     | table             | postgres
+ public | orders_range | partitioned table | postgres
+(4 rows)
+```
+
+Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
+```
+да, можно было
+```
+
+
+## Задача 4
+
+Используя утилиту `pg_dump` создайте бекап БД `test_database`.
+
+Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
+
+## Ответ
+
+Используя утилиту `pg_dump` создайте бекап БД `test_database`
+```
+pg_dump test_database > /home/algus/posgres/test_database_range.sql
+```
+Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
+```
+test_database=# CREATE UNIQUE INDEX CONCURRENTLY ix_title1 ON orders_1 (title);
+CREATE INDEX
+test_database=# CREATE UNIQUE INDEX CONCURRENTLY ix_title2 ON orders_2 (title);
+CREATE INDEX
+
