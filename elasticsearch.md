@@ -239,6 +239,13 @@ algus@pc:~/es$ curl -X DELETE "localhost:9200/ind-3?pretty"
 ## Ответ
 
 ```
+[root@a06d1b45870d elasticsearch]# mkdir snapshots
+[root@a06d1b45870d elasticsearch]# ls
+bin  config  data  jdk	lib  LICENSE.txt  logs	modules  NOTICE.txt  plugins  README.asciidoc  snapshots
+```
+
+
+```
 algus@pc:~/es$ sudo docker exec -it es01 bash
 [root@bd04b64c889d elasticsearch]# mkdir snapshots
 
